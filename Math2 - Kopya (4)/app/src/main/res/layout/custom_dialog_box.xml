@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="40dp">
+
+   <LinearLayout
+
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:orientation="vertical"
+       android:padding="20dp"
+       android:background="@drawable/gradient2"
+       >
+
+       <TextView
+           android:textSize="25sp"
+           android:textStyle="bold"
+           android:fontFamily="monospace"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:textColor="@color/white"
+           android:text="Sonuçlar"
+           android:gravity="center"
+           />
+
+       <TextView
+           android:id="@+id/tvMessage"
+           android:textSize="16sp"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:textColor="@color/white"
+           android:layout_marginTop="15dp"
+           android:text="Doğru Sayısı:"
+           android:layout_marginLeft="50dp"
+           />
+
+       <TextView
+           android:id="@+id/tvMessage2"
+           android:textSize="16sp"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:textColor="@color/white"
+           android:text="Yanlış Sayısı:"
+           android:layout_marginLeft="50dp"
+           />
+
+       <TextView
+           android:id="@+id/tvMessage3"
+           android:textSize="16sp"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:textColor="@color/white"
+           android:text="Not:"
+           android:layout_marginLeft="50dp"
+           />
+
+       <LinearLayout
+           android:layout_width="340dp"
+           android:layout_height="wrap_content"
+           android:gravity="center"
+           android:layout_marginTop="20dp"
+           android:orientation="horizontal">
+
+           <Button
+               android:id="@+id/btnMenu"
+               android:layout_width="160dp"
+               android:layout_height="wrap_content"
+               android:textSize="18sp"
+               android:textAllCaps="false"
+               android:text="Menü"
+               android:backgroundTint="#D50B0B"
+               />
+
+           <Button
+               android:id="@+id/btnAgain"
+               android:layout_width="160dp"
+               android:layout_height="wrap_content"
+               android:textSize="18sp"
+               android:textAllCaps="false"
+               android:backgroundTint="#0662AC"
+               android:text="Tekrarla"
+               />
+
+       </LinearLayout>
+
+   </LinearLayout>
+
+</androidx.cardview.widget.CardView>

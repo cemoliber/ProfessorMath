@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MultiOperation"
+    android:background="@drawable/gradient">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="270dp"
+        android:layout_height="60dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="110dp"
+        android:layout_marginEnd="80dp"
+        android:layout_marginBottom="80dp"
+        app:cardBackgroundColor="#061153"
+        app:cardCornerRadius="50dp"
+        >
+        <TextView
+            android:id="@+id/question"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Soru"
+            android:textColor="@color/white"
+            android:textSize="30sp"
+            />
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_below="@id/bannerAd2"
+        android:id="@+id/scoreCardView"
+        android:layout_width="110dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="10dp"
+        app:cardCornerRadius="50dp"
+        android:layout_marginTop="10dp"
+        app:cardBackgroundColor="#050C39"
+        >
+        <TextView
+            android:id="@+id/scoreText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:layout_gravity="center"
+            android:text="Skor:"
+            android:textSize="20sp"/>
+    </androidx.cardview.widget.CardView>
+
+    <ImageView
+        android:id="@+id/coolImg"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="190dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/cool"
+        android:visibility="invisible" />
+
+    <ImageView
+        android:id="@+id/sadImg"
+        android:layout_marginTop="190dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/sad"
+        android:visibility="invisible" />
+
+    <ImageView
+        android:id="@+id/noAnswerImg"
+        android:layout_marginTop="190dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/noanswer"
+        android:visibility="invisible" />
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/answerCardView"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/coolImg"
+        app:cardCornerRadius="50dp"
+        android:layout_marginTop="20dp"
+        app:cardBackgroundColor="#050C39"
+        >
+        <EditText
+            android:id="@+id/answer"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:hint="Cevabınızı Giriniz"
+            android:textSize="20sp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:inputType="number"
+            />
+    </androidx.cardview.widget.CardView>
+
+    <Button
+        android:id="@+id/refreshButton"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="200dp"
+        android:layout_below="@id/answerCardView"
+        android:layout_marginTop="50dp"
+        android:text="Yeni Soru"
+        android:textColor="@color/white"
+        android:background="@drawable/button1"
+        />
+
+    <Button
+        android:id="@+id/controlButton"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="70dp"
+        android:layout_below="@id/answerCardView"
+        android:layout_marginTop="50dp"
+        android:text="Cevapla"
+        android:textColor="@color/white"
+        android:background="@drawable/button1"
+        />
+
+    <com.google.android.gms.ads.AdView
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/bannerAd2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="0dp"
+        ads:adUnitId="@string/banner_ad_id_test"
+        ads:adSize="BANNER"
+        />
+
+</RelativeLayout>
