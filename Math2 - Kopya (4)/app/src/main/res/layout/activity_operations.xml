@@ -70,7 +70,7 @@
         />
 
     <Button
-        android:id="@+id/scoreSubCardButton"
+        android:id="@+id/reportCardButton"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"

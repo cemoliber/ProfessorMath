@@ -30,6 +30,13 @@ class Operations : AppCompatActivity() {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         getSpinnerLevel.adapter = adapter
 
+        val goButton = findViewById<Button>(R.id.reportCardButton);
+        goButton.setOnClickListener {
+
+            val intent = Intent(this,ReportCard::class.java)
+            startActivity(intent)
+        }
+
         getSpinnerLevel.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>,
