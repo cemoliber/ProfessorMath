@@ -6,19 +6,29 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
 class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, 1) {
+
     companion object {
         private const val DATABASE_NAME = "ReportDB.db"
         private const val TABLE_NAME = "reports"
         private const val COL_ID = "id"
-        private const val COL_DATA1 = "data1"
-        private const val COL_DATA2 = "data2"
-        private const val COL_DATA3 = "data3"
-        private const val COL_DATA4 = "data4"
-        private const val COL_DATA5 = "data5"
+        private const val COL_NOTE = "data1"  // Not
+        private const val COL_TRUE_COUNT = "data2"  // Doğru sayısı
+        private const val COL_WRONG_COUNT = "data3"  // Yanlış sayısı
+        private const val COL_LEVEL = "data4"  // Seviye
+        private const val COL_OPERATION = "data5"  // İşlem
     }
 
     override fun onCreate(db: SQLiteDatabase) {
-        val createTable = "CREATE TABLE $TABLE_NAME ($COL_ID INTEGER PRIMARY KEY AUTOINCREMENT, $COL_DATA1 INTEGER, $COL_DATA2 INTEGER, $COL_DATA3 INTEGER, $COL_DATA4 INTEGER, $COL_DATA5 TEXT)"
+        val createTable = """
+            CREATE TABLE $TABLE_NAME (
+                $COL_ID INTEGER PRIMARY KEY AUTOINCREMENT, 
+                $COL_NOTE INTEGER, 
+                $COL_TRUE_COUNT INTEGER, 
+                $COL_WRONG_COUNT INTEGER, 
+                $COL_LEVEL INTEGER, 
+                $COL_OPERATION TEXT
+            )
+        """.trimIndent()
         db.execSQL(createTable)
     }
 
@@ -27,38 +37,42 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         onCreate(db)
     }
 
-    fun insertData(data1: Int, data2: Int, data3: Int, data4: Int, data5: String): Boolean {
-        val db = this.writableDatabase
+    // **Yeni veri ekleme fonksiyonu**
+    fun insertReportCard(note: Int, trueCount: Int, wrongCount: Int, level: Int, operation: String): Boolean {
+        val db = writableDatabase
         val contentValues = ContentValues().apply {
-            put(COL_DATA1, data1)
-            put(COL_DATA2, data2)
-            put(COL_DATA3, data3)
-            put(COL_DATA4, data4)
-            put(COL_DATA5, data5)
+            put(COL_NOTE, note)
+            put(COL_TRUE_COUNT, trueCount)
+            put(COL_WRONG_COUNT, wrongCount)
+            put(COL_LEVEL, level)
+            put(COL_OPERATION, operation)
         }
         val result = db.insert(TABLE_NAME, null, contentValues)
         db.close()
         return result != -1L
     }
 
-    fun getAllData(): List<List<Any>> {
-        val dataList = mutableListOf<List<Any>>()
+    // **Tüm verileri çekme fonksiyonu**
+    fun getAllData(): List<ReportCardItem> {
+        val reportList = mutableListOf<ReportCardItem>()
         val db = this.readableDatabase
-        val cursor = db.rawQuery("SELECT * FROM $TABLE_NAME", null)
+        // Burada ORDER BY ile notları azalan sırada getiriyoruz
+        val cursor = db.rawQuery("SELECT * FROM $TABLE_NAME ORDER BY $COL_NOTE DESC", null)
+
         if (cursor.moveToFirst()) {
             do {
-                val row = listOf(
-                    cursor.getInt(1),
-                    cursor.getInt(2),
-                    cursor.getInt(3),
-                    cursor.getInt(4),
-                    cursor.getString(5)
-                )
-                dataList.add(row)
+                val note = cursor.getInt(cursor.getColumnIndexOrThrow(COL_NOTE))
+                val trueCount = cursor.getInt(cursor.getColumnIndexOrThrow(COL_TRUE_COUNT))
+                val wrongCount = cursor.getInt(cursor.getColumnIndexOrThrow(COL_WRONG_COUNT))
+                val level = cursor.getInt(cursor.getColumnIndexOrThrow(COL_LEVEL))
+                val operation = cursor.getString(cursor.getColumnIndexOrThrow(COL_OPERATION))
+
+                reportList.add(ReportCardItem(note, trueCount, wrongCount, level, operation))
             } while (cursor.moveToNext())
         }
         cursor.close()
         db.close()
-        return dataList
+        return reportList
     }
+
 }

@@ -19,9 +19,12 @@ class ReportCard : AppCompatActivity() {
         loadData()
     }
 
+
     private fun loadData() {
-        val dataList = databaseHelper.getAllData()
-        val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, dataList.map { it.joinToString(" | ") })
-        listView.adapter = adapter
+        val reportCardList = databaseHelper.getAllData() // ReportCardItem listesi al
+        val adapter = ReportCardAdapter(this, reportCardList) // Özel adapter kullan
+        listView.adapter = adapter // Adapter'ı ListView'a ata
     }
+
+
 }

@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="#AEEBEBEB"
     android:orientation="vertical"
     tools:context=".ReportCard"
     android:padding="16dp">
@@ -10,6 +11,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/black"
         android:text="report_card"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -21,7 +23,7 @@
         android:id="@+id/listView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:divider="@android:color/darker_gray"
+        android:divider="#000000"
         android:dividerHeight="1dp" />
 
 </LinearLayout>

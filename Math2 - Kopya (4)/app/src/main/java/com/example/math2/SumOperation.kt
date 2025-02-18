@@ -653,9 +653,9 @@ class SumOperation : AppCompatActivity() {
                             tvMessage3.setText("Puan: "+pointL3Text)
 
                             saveReportCardDatas(
+                                pointL3,
                                 trueCountL3,
                                 wrongCountL3,
-                                pointL3,
                                 3,
                                 "Toplama"
                             )
@@ -702,21 +702,21 @@ class SumOperation : AppCompatActivity() {
     //**************************************
 
     fun saveReportCardDatas(
+        gettedNote: Int,
         gettedTrueCount: Int,
         gettedWrongCount: Int,
-        gettedNote: Int,
         gettedLevel: Int,
         gettedOperation: String
     ) {
         // Parametreler zaten uygun türde, bu yüzden null kontrolüne gerek yok
+        val data3 = gettedNote
         val data1 = gettedTrueCount
         val data2 = gettedWrongCount
-        val data3 = gettedNote
         val data4 = gettedLevel
         val data5 = gettedOperation
 
         // Veriyi veritabanına ekle
-        val isInserted = databaseHelper.insertData(data1, data2, data3, data4, data5)
+        val isInserted = databaseHelper.insertReportCard(data3, data1, data2, data4, data5)
         if (isInserted) {
             Toast.makeText(this, "Data Inserted Successfully", Toast.LENGTH_SHORT).show()
         } else {

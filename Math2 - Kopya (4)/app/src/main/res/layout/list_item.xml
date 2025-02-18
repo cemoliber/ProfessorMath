@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="40dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:background="@drawable/gradient2"
+        >
+
+        <TextView
+            android:id="@+id/noteCard"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:fontFamily="monospace"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:text="NOT"
+            android:gravity="center"
+            />
+
+        <TextView
+            android:id="@+id/trueCountCard"
+            android:textSize="16sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:layout_marginTop="15dp"
+            android:text="Doğru Sayısı:"
+            android:layout_marginLeft="50dp"
+            />
+
+        <TextView
+            android:id="@+id/wrongCountCard"
+            android:textSize="16sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:text="Yanlış Sayısı:"
+            android:layout_marginLeft="50dp"
+            />
+
+        <TextView
+            android:id="@+id/levelCard"
+            android:textSize="16sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:text="Seviye:"
+            android:layout_marginLeft="50dp"
+            />
+        <TextView
+            android:id="@+id/operationCard"
+            android:textSize="16sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:text="İşlem:"
+            android:layout_marginLeft="50dp"
+            />
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
