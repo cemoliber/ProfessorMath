@@ -1,10 +1,17 @@
 package com.example.math2
 
+import android.app.Dialog
+import android.content.Intent
+import android.graphics.Color
+import android.graphics.RenderNode
+import android.graphics.drawable.ColorDrawable
 import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.ContactsContract.CommonDataKinds.Im
 import android.util.Log
 import android.view.View
+import android.view.Window
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
@@ -15,9 +22,17 @@ import java.util.*
 import kotlin.random.Random
 
 
+
 class MultiOperation : AppCompatActivity() {
 
     var score = 0
+    var trueCountL1 = 0
+    var wrongCountL1 = 0
+    var trueCountL2 = 0
+    var wrongCountL2 = 0
+    var trueCountL3 = 0
+    var wrongCountL3 = 0
+    var questions = 0
 
     private companion object{
         private const val TAG = "BANNER_AD_TAG"
@@ -26,8 +41,35 @@ class MultiOperation : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_sub_operation)
+        setContentView(R.layout.activity_sum_operation)
 
+        //dialog box
+        val dialog = Dialog(this@MultiOperation)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.custom_dialog_box)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+
+        //dialog box buttons
+        val btnMenu = dialog.findViewById<Button>(R.id.btnMenu)
+        val btnAgain = dialog.findViewById<Button>(R.id.btnAgain)
+
+        //dialog box textViews
+        val tvMessage1 = dialog.findViewById<TextView>(R.id.tvMessage)
+        val tvMessage2 = dialog.findViewById<TextView>(R.id.tvMessage2)
+        val tvMessage3 = dialog.findViewById<TextView>(R.id.tvMessage3)
+
+        //String values for dialog box
+        var scoreText = ""
+        var wrongCountL1Text = ""
+        var pointL1Text = ""
+
+        var wrongCountL2Text = ""
+        var pointL2Text = ""
+
+        var wrongCountL3Text = ""
+        var pointL3Text = ""
 
         //initialize
         MobileAds.initialize(this@MultiOperation) {
@@ -95,8 +137,8 @@ class MultiOperation : AppCompatActivity() {
 
         if(selectedValue.equals("Seviye 1")){
             //creates random numbers
-            val randomNum1 = Random.nextInt(0,5)
-            val randomNum2 = Random.nextInt(0,5)
+            val randomNum1 = Random.nextInt(0,10)
+            val randomNum2 = Random.nextInt(0,10)
             val defaultAnswer = randomNum1 * randomNum2
 
 
@@ -125,17 +167,48 @@ class MultiOperation : AppCompatActivity() {
                         //congratulatoryMessage()
                         clearGetAnswerBox()
                         score++
+                        questions++
+                        trueCountL1++
                         sendScore.text = "Skor: "+ score
                         clearGetAnswerBox()
                         newQuestions()
                     }else if(gettedAnswer != defaultAnswer){
                         changeColorIncorrect()
                         wrongSound.start()
-                        //tryAgainMessage()
-                        clearGetAnswerBox()
                         score--
+                        questions++
+                        wrongCountL1++
                         sendScore.text = "Skor: "+ score
-                        newQuestions()
+                        if(wrongCountL1 == 5){
+                            dialog.show()
+                            scoreText = score.toString()
+                            wrongCountL1Text = wrongCountL1.toString()
+                            tvMessage1.setText("Skor: "+scoreText)
+                            tvMessage2.setText("Yanlış Sayısı: "+wrongCountL1Text)
+                            val pointL1 = (trueCountL1 * 100) / questions
+                            pointL1Text = pointL1.toString()
+                            tvMessage3.setText("Puan: "+pointL1Text)
+
+                            btnMenu.setOnClickListener {
+                                score = 0
+                                questions = 0
+                                trueCountL1 = 0
+                                wrongCountL1 = 0
+                                val intent = Intent(this@MultiOperation, Operations::class.java)
+                                startActivity(intent)
+                            }
+
+                            btnAgain.setOnClickListener {
+                                score = 0
+                                sendScore.text = "Skor: "+ score
+                                questions = 0
+                                trueCountL1 = 0
+                                wrongCountL1 = 0
+                                dialog.dismiss()
+                            }
+                        }else{
+                            newQuestions()
+                        }
                     }
                 }
             }
@@ -148,8 +221,8 @@ class MultiOperation : AppCompatActivity() {
                 newQuestions()
             }
         }else if(selectedValue.equals("Seviye 2")){
-            val randomNum1 = Random.nextInt(0,10)
-            val randomNum2 = Random.nextInt(0,10)
+            val randomNum1 = Random.nextInt(0,30)
+            val randomNum2 = Random.nextInt(0,30)
             val defaultAnswer = randomNum1 * randomNum2
 
             //score
@@ -180,16 +253,47 @@ class MultiOperation : AppCompatActivity() {
                         //congratulatoryMessage()
                         clearGetAnswerBox()
                         score += 2
+                        questions++
+                        trueCountL2++
                         sendScore.text = "Skor: "+ score
                         newQuestions()
                     }else if(gettedAnswer != defaultAnswer){
                         changeColorIncorrect()
                         wrongSound.start()
-                        //tryAgainMessage()
-                        clearGetAnswerBox()
                         score -= 2
+                        questions++
+                        wrongCountL1++
                         sendScore.text = "Skor: "+ score
-                        newQuestions()
+                        if(wrongCountL2 == 5){
+                            dialog.show()
+                            scoreText = score.toString()
+                            wrongCountL2Text = wrongCountL2.toString()
+                            tvMessage1.setText("Skor: "+scoreText)
+                            tvMessage2.setText("Yanlış Sayısı: "+wrongCountL2Text)
+                            val pointL2 = (trueCountL2 * 100) / questions
+                            pointL2Text = pointL2.toString()
+                            tvMessage3.setText("Puan: "+pointL2Text)
+
+                            btnMenu.setOnClickListener {
+                                score = 0
+                                questions = 0
+                                trueCountL2 = 0
+                                wrongCountL2 = 0
+                                val intent = Intent(this@MultiOperation, Operations::class.java)
+                                startActivity(intent)
+                            }
+
+                            btnAgain.setOnClickListener {
+                                score = 0
+                                sendScore.text = "Skor: "+ score
+                                questions = 0
+                                trueCountL2 = 0
+                                wrongCountL2 = 0
+                                dialog.dismiss()
+                            }
+                        }else{
+                            newQuestions()
+                        }
                     }
                 }
             }
@@ -202,9 +306,9 @@ class MultiOperation : AppCompatActivity() {
                 newQuestions()
             }
         }else if(selectedValue.equals("Seviye 3")){
-            val randomNum1 = Random.nextInt(0,15)
-            val randomNum2 = Random.nextInt(0,15)
-            val defaultAnswer = randomNum1 * randomNum2
+            val randomNum1 = Random.nextInt(0,50)
+            val randomNum2 = Random.nextInt(0,50)
+            val defaultAnswer = randomNum1 *+ randomNum2
 
             //score
             val sendScore = findViewById<TextView>(R.id.scoreText)
@@ -234,22 +338,52 @@ class MultiOperation : AppCompatActivity() {
                         //congratulatoryMessage()
                         clearGetAnswerBox()
                         score += 3
+                        questions++
+                        trueCountL3++
                         sendScore.text = "Skor: "+ score
                         newQuestions()
                     }else if(gettedAnswer != defaultAnswer){
                         changeColorIncorrect()
                         wrongSound.start()
-                        //tryAgainMessage()
-                        clearGetAnswerBox()
-                        newQuestions()
+                        score -= 3
+                        questions++
+                        wrongCountL3++
+                        sendScore.text = "Skor: "+ score
+                        if(wrongCountL3 == 5){
+                            dialog.show()
+                            scoreText = score.toString()
+                            wrongCountL3Text = wrongCountL3.toString()
+                            tvMessage1.setText("Skor: "+scoreText)
+                            tvMessage2.setText("Yanlış Sayısı: "+wrongCountL3Text)
+                            val pointL3 = (trueCountL3 * 100) / questions
+                            pointL3Text = pointL3.toString()
+                            tvMessage3.setText("Puan: "+pointL3Text)
+
+                            btnMenu.setOnClickListener {
+                                score = 0
+                                questions = 0
+                                trueCountL3 = 0
+                                wrongCountL3 = 0
+                                val intent = Intent(this@MultiOperation, Operations::class.java)
+                                startActivity(intent)
+                            }
+                            btnAgain.setOnClickListener {
+                                score = 0
+                                sendScore.text = "Skor: "+ score
+                                questions = 0
+                                trueCountL3 = 0
+                                wrongCountL3 = 0
+                                dialog.dismiss()
+                            }
+                        }else{
+                            newQuestions()
+                        }
                     }
                 }
             }
 
             val refreshButton = findViewById<Button>(R.id.refreshButton)
             refreshButton.setOnClickListener{
-                //val showResult = findViewById<TextView>(R.id.showResult)
-                //showResult.text = ""
                 clearGetAnswerBox()
                 newQuestions()
             }
@@ -258,13 +392,41 @@ class MultiOperation : AppCompatActivity() {
 
     private fun newQuestions() {
 
+        //dialog box
+        val dialog = Dialog(this@MultiOperation)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.custom_dialog_box)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+
+        //dialog box buttons
+        val btnMenu = dialog.findViewById<Button>(R.id.btnMenu)
+        val btnAgain = dialog.findViewById<Button>(R.id.btnAgain)
+
+        //dialog box textViews
+        val tvMessage1 = dialog.findViewById<TextView>(R.id.tvMessage)
+        val tvMessage2 = dialog.findViewById<TextView>(R.id.tvMessage2)
+        val tvMessage3 = dialog.findViewById<TextView>(R.id.tvMessage3)
+
+        //String values for dialog box
+        var scoreText = ""
+        var wrongCountL1Text = ""
+        var pointL1Text = ""
+
+        var wrongCountL2Text = ""
+        var pointL2Text = ""
+
+        var wrongCountL3Text = ""
+        var pointL3Text = ""
+
         val selectedValue = intent.getStringExtra("setSpinnerData")
         val correct = MediaPlayer.create(this@MultiOperation,R.raw.correct2)
         val wrongSound = MediaPlayer.create(this@MultiOperation,R.raw.incorrect)
 
         if(selectedValue.equals("Seviye 1")){
-            val randomNum1 = Random.nextInt(0,5)
-            val randomNum2 = Random.nextInt(0,5)
+            val randomNum1 = Random.nextInt(0,10)
+            val randomNum2 = Random.nextInt(0,10)
             val defaultAnswer = randomNum1 * randomNum2
 
             val questionText = findViewById<TextView>(R.id.question)
@@ -291,21 +453,53 @@ class MultiOperation : AppCompatActivity() {
                         correct.start()
                         //congratulatoryMessage()
                         score++
+                        questions++
+                        trueCountL1++
                         sendScore.text = "Skor: "+ score
                         newQuestions()
                     }else if(gettedAnswer != defaultAnswer){
                         changeColorIncorrect()
                         wrongSound.start()
-                        //tryAgainMessage()
                         score--
+                        questions++
+                        wrongCountL1++
                         sendScore.text = "Skor: "+ score
-                        newQuestions()
+                        if(wrongCountL1 == 5){
+                            dialog.show()
+                            scoreText = score.toString()
+                            wrongCountL1Text = wrongCountL1.toString()
+                            tvMessage1.setText("Skor: "+scoreText)
+                            tvMessage2.setText("Yanlış Sayısı: "+wrongCountL1Text)
+                            val pointL1 = (trueCountL1 * 100) / questions
+                            pointL1Text = pointL1.toString()
+                            tvMessage3.setText("Puan: "+pointL1Text)
+
+                            btnMenu.setOnClickListener {
+                                score = 0
+                                questions = 0
+                                trueCountL1 = 0
+                                wrongCountL1 = 0
+                                val intent = Intent(this@MultiOperation, Operations::class.java)
+                                startActivity(intent)
+                            }
+
+                            btnAgain.setOnClickListener {
+                                score = 0
+                                sendScore.text = "Skor: "+ score
+                                questions = 0
+                                trueCountL1 = 0
+                                wrongCountL1 = 0
+                                dialog.dismiss()
+                            }
+                        }else{
+                            newQuestions()
+                        }
                     }
                 }
             }
         }else if(selectedValue.equals("Seviye 2")){
-            val randomNum1 = Random.nextInt(0,10)
-            val randomNum2 = Random.nextInt(0,10)
+            val randomNum1 = Random.nextInt(0,30)
+            val randomNum2 = Random.nextInt(0,30)
             val defaultAnswer = randomNum1 * randomNum2
 
             val questionText = findViewById<TextView>(R.id.question)
@@ -322,7 +516,6 @@ class MultiOperation : AppCompatActivity() {
                 clearGetAnswerBox()
 
                 if(text == ""){
-                    //showResult.text = "CEVAP GİRİLMEDİ"
                     noAnswerImg()
                     newQuestions()
                 }else{
@@ -333,22 +526,53 @@ class MultiOperation : AppCompatActivity() {
                         //congratulatoryMessage()
                         clearGetAnswerBox()
                         score += 2
+                        questions++
+                        trueCountL2++
                         sendScore.text = "Skor: "+ score
                         newQuestions()
                     }else if(gettedAnswer != defaultAnswer){
                         changeColorIncorrect()
                         wrongSound.start()
-                        //tryAgainMessage()
-                        clearGetAnswerBox()
                         score -= 2
+                        questions++
+                        wrongCountL2++
                         sendScore.text = "Skor: "+ score
-                        newQuestions()
+                        if(wrongCountL2 == 5){
+                            dialog.show()
+                            scoreText = score.toString()
+                            wrongCountL2Text = wrongCountL2.toString()
+                            tvMessage1.setText("Skor: "+scoreText)
+                            tvMessage2.setText("Yanlış Sayısı: "+ wrongCountL2Text)
+                            val pointL2 = (trueCountL2 * 100) / questions
+                            pointL2Text = pointL2.toString()
+                            tvMessage3.setText("Puan: "+pointL2Text)
+
+                            btnMenu.setOnClickListener {
+                                score = 0
+                                questions = 0
+                                trueCountL2 = 0
+                                wrongCountL2 = 0
+                                val intent = Intent(this@MultiOperation, Operations::class.java)
+                                startActivity(intent)
+                            }
+
+                            btnAgain.setOnClickListener {
+                                score = 0
+                                sendScore.text = "Skor: "+ score
+                                questions = 0
+                                trueCountL2 = 0
+                                wrongCountL2 = 0
+                                dialog.dismiss()
+                            }
+                        }else{
+                            newQuestions()
+                        }
                     }
                 }
             }
         }else if(selectedValue.equals("Seviye 3")){
-            val randomNum1 = Random.nextInt(0,15)
-            val randomNum2 = Random.nextInt(0,15)
+            val randomNum1 = Random.nextInt(0,50)
+            val randomNum2 = Random.nextInt(0,50)
             val defaultAnswer = randomNum1 * randomNum2
 
             val questionText = findViewById<TextView>(R.id.question)
@@ -376,33 +600,64 @@ class MultiOperation : AppCompatActivity() {
                         //congratulatoryMessage()
                         clearGetAnswerBox()
                         score += 3
+                        questions++
+                        trueCountL3++
                         sendScore.text = "Skor: "+ score
                         newQuestions()
                     }else if(gettedAnswer != defaultAnswer){
                         changeColorIncorrect()
                         wrongSound.start()
-                        //tryAgainMessage()
-                        clearGetAnswerBox()
                         score -= 3
+                        questions++
+                        wrongCountL3++
                         sendScore.text = "Skor: "+ score
-                        newQuestions()
+                        if(wrongCountL3 == 5){
+                            dialog.show()
+                            scoreText = score.toString()
+                            wrongCountL3Text = wrongCountL3.toString()
+                            tvMessage1.setText("Skor: "+scoreText)
+                            tvMessage2.setText("Yanlış Sayısı: "+ wrongCountL3Text)
+                            val pointL3 = (trueCountL3 * 100) / questions
+                            pointL3Text = pointL3.toString()
+                            tvMessage3.setText("Puan: "+pointL3Text)
+
+                            btnMenu.setOnClickListener {
+                                score = 0
+                                questions = 0
+                                trueCountL3 = 0
+                                wrongCountL3 = 0
+                                val intent = Intent(this@MultiOperation, Operations::class.java)
+                                startActivity(intent)
+                            }
+
+                            btnAgain.setOnClickListener {
+                                score = 0
+                                sendScore.text = "Skor: "+ score
+                                questions = 0
+                                trueCountL3 = 0
+                                wrongCountL3 = 0
+                                dialog.dismiss()
+                            }
+                        }else{
+                            newQuestions()
+                        }
                     }
                 }
             }
         }
     }
-/*
-    private fun congratulatoryMessage() {
-        val showResult = findViewById<TextView>(R.id.showResult)
-        showResult.setTextColor(Color.GREEN)
-        showResult.text = "Doğru Bildin Evlat"
-    }
+    /*
+        private fun congratulatoryMessage() {
+            val showResult = findViewById<TextView>(R.id.showResult)
+            showResult.setTextColor(Color.GREEN)
+            showResult.text = "Doğru Bildin Evlat"
+        }
 
-    private fun tryAgainMessage() {
-        val showResult = findViewById<TextView>(R.id.showResult)
-        showResult.setTextColor(Color.MAGENTA)
-        showResult.text = "Tekrar Dene Evlat"
-    }*/
+        private fun tryAgainMessage() {
+            val showResult = findViewById<TextView>(R.id.showResult)
+            showResult.setTextColor(Color.MAGENTA)
+            showResult.text = "Tekrar Dene Evlat"
+        }*/
 
     private fun clearGetAnswerBox() {
         val getAnswer = findViewById<EditText>(R.id.answer)
@@ -482,4 +737,3 @@ class MultiOperation : AppCompatActivity() {
         Log.d(TAG,"onDestroy: ")
     }
 }
-

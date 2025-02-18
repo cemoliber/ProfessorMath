@@ -21,17 +21,18 @@ import com.google.android.gms.ads.*
 import java.util.*
 import kotlin.random.Random
 
-var score = 0
 
-var trueCountL1 = 0
-var wrongCountL1 = 0
-var trueCountL2 = 0
-var wrongCountL2 = 0
-var trueCountL3 = 0
-var wrongCountL3 = 0
-var questions = 0
 
 class SumOperation : AppCompatActivity() {
+
+    var score = 0
+    var trueCountL1 = 0
+    var wrongCountL1 = 0
+    var trueCountL2 = 0
+    var wrongCountL2 = 0
+    var trueCountL3 = 0
+    var wrongCountL3 = 0
+    var questions = 0
 
     private companion object{
         private const val TAG = "BANNER_AD_TAG"
@@ -77,8 +78,8 @@ class SumOperation : AppCompatActivity() {
 
         MobileAds.setRequestConfiguration(
             RequestConfiguration.Builder().setTestDeviceIds(
-            listOf("TEST_DEVICE1","TEST_DEVICE2")
-        ).build())
+                listOf("TEST_DEVICE1","TEST_DEVICE2")
+            ).build())
 
         //init banner ad
         adView = findViewById(R.id.bannerAd2)
@@ -174,6 +175,7 @@ class SumOperation : AppCompatActivity() {
                     }else if(gettedAnswer != defaultAnswer){
                         changeColorIncorrect()
                         wrongSound.start()
+                        score--
                         questions++
                         wrongCountL1++
                         sendScore.text = "Skor: "+ score
@@ -181,7 +183,7 @@ class SumOperation : AppCompatActivity() {
                             dialog.show()
                             scoreText = score.toString()
                             wrongCountL1Text = wrongCountL1.toString()
-                            tvMessage1.setText("Doğru Sayısı: "+scoreText)
+                            tvMessage1.setText("Skor: "+scoreText)
                             tvMessage2.setText("Yanlış Sayısı: "+wrongCountL1Text)
                             val pointL1 = (trueCountL1 * 100) / questions
                             pointL1Text = pointL1.toString()
@@ -258,6 +260,7 @@ class SumOperation : AppCompatActivity() {
                     }else if(gettedAnswer != defaultAnswer){
                         changeColorIncorrect()
                         wrongSound.start()
+                        score -= 2
                         questions++
                         wrongCountL1++
                         sendScore.text = "Skor: "+ score
@@ -265,7 +268,7 @@ class SumOperation : AppCompatActivity() {
                             dialog.show()
                             scoreText = score.toString()
                             wrongCountL2Text = wrongCountL2.toString()
-                            tvMessage1.setText("Doğru Sayısı: "+scoreText)
+                            tvMessage1.setText("Skor: "+scoreText)
                             tvMessage2.setText("Yanlış Sayısı: "+wrongCountL2Text)
                             val pointL2 = (trueCountL2 * 100) / questions
                             pointL2Text = pointL2.toString()
@@ -342,6 +345,7 @@ class SumOperation : AppCompatActivity() {
                     }else if(gettedAnswer != defaultAnswer){
                         changeColorIncorrect()
                         wrongSound.start()
+                        score -= 3
                         questions++
                         wrongCountL3++
                         sendScore.text = "Skor: "+ score
@@ -349,7 +353,7 @@ class SumOperation : AppCompatActivity() {
                             dialog.show()
                             scoreText = score.toString()
                             wrongCountL3Text = wrongCountL3.toString()
-                            tvMessage1.setText("Doğru Sayısı: "+scoreText)
+                            tvMessage1.setText("Skor: "+scoreText)
                             tvMessage2.setText("Yanlış Sayısı: "+wrongCountL3Text)
                             val pointL3 = (trueCountL3 * 100) / questions
                             pointL3Text = pointL3.toString()
@@ -456,6 +460,7 @@ class SumOperation : AppCompatActivity() {
                     }else if(gettedAnswer != defaultAnswer){
                         changeColorIncorrect()
                         wrongSound.start()
+                        score--
                         questions++
                         wrongCountL1++
                         sendScore.text = "Skor: "+ score
@@ -463,7 +468,7 @@ class SumOperation : AppCompatActivity() {
                             dialog.show()
                             scoreText = score.toString()
                             wrongCountL1Text = wrongCountL1.toString()
-                            tvMessage1.setText("Doğru Sayısı: "+scoreText)
+                            tvMessage1.setText("Skor: "+scoreText)
                             tvMessage2.setText("Yanlış Sayısı: "+wrongCountL1Text)
                             val pointL1 = (trueCountL1 * 100) / questions
                             pointL1Text = pointL1.toString()
@@ -528,6 +533,7 @@ class SumOperation : AppCompatActivity() {
                     }else if(gettedAnswer != defaultAnswer){
                         changeColorIncorrect()
                         wrongSound.start()
+                        score -= 2
                         questions++
                         wrongCountL2++
                         sendScore.text = "Skor: "+ score
@@ -535,7 +541,7 @@ class SumOperation : AppCompatActivity() {
                             dialog.show()
                             scoreText = score.toString()
                             wrongCountL2Text = wrongCountL2.toString()
-                            tvMessage1.setText("Doğru Sayısı: "+scoreText)
+                            tvMessage1.setText("Skor: "+scoreText)
                             tvMessage2.setText("Yanlış Sayısı: "+ wrongCountL2Text)
                             val pointL2 = (trueCountL2 * 100) / questions
                             pointL2Text = pointL2.toString()
@@ -601,6 +607,7 @@ class SumOperation : AppCompatActivity() {
                     }else if(gettedAnswer != defaultAnswer){
                         changeColorIncorrect()
                         wrongSound.start()
+                        score -= 3
                         questions++
                         wrongCountL3++
                         sendScore.text = "Skor: "+ score
@@ -608,7 +615,7 @@ class SumOperation : AppCompatActivity() {
                             dialog.show()
                             scoreText = score.toString()
                             wrongCountL3Text = wrongCountL3.toString()
-                            tvMessage1.setText("Doğru Sayısı: "+scoreText)
+                            tvMessage1.setText("Skor: "+scoreText)
                             tvMessage2.setText("Yanlış Sayısı: "+ wrongCountL3Text)
                             val pointL3 = (trueCountL3 * 100) / questions
                             pointL3Text = pointL3.toString()
@@ -639,18 +646,18 @@ class SumOperation : AppCompatActivity() {
             }
         }
     }
-/*
-    private fun congratulatoryMessage() {
-        val showResult = findViewById<TextView>(R.id.showResult)
-        showResult.setTextColor(Color.GREEN)
-        showResult.text = "Doğru Bildin Evlat"
-    }
+    /*
+        private fun congratulatoryMessage() {
+            val showResult = findViewById<TextView>(R.id.showResult)
+            showResult.setTextColor(Color.GREEN)
+            showResult.text = "Doğru Bildin Evlat"
+        }
 
-    private fun tryAgainMessage() {
-        val showResult = findViewById<TextView>(R.id.showResult)
-        showResult.setTextColor(Color.MAGENTA)
-        showResult.text = "Tekrar Dene Evlat"
-    }*/
+        private fun tryAgainMessage() {
+            val showResult = findViewById<TextView>(R.id.showResult)
+            showResult.setTextColor(Color.MAGENTA)
+            showResult.text = "Tekrar Dene Evlat"
+        }*/
 
     private fun clearGetAnswerBox() {
         val getAnswer = findViewById<EditText>(R.id.answer)
@@ -730,4 +737,3 @@ class SumOperation : AppCompatActivity() {
         Log.d(TAG,"onDestroy: ")
     }
 }
-

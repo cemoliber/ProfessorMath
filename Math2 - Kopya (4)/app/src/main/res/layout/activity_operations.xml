@@ -69,4 +69,15 @@
         ads:adSize="BANNER"
         />
 
+    <Button
+        android:id="@+id/scoreSubCardButton"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="50dp"
+        android:text="Karne"
+        android:textSize="23sp"
+        android:backgroundTint="#8C058E"
+        />
+
 </RelativeLayout>

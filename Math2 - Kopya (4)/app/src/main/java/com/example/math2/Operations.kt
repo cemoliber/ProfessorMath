@@ -67,6 +67,15 @@ class Operations : AppCompatActivity() {
                     intent.putExtra("setSpinnerData",getSpinnerData)
                     startActivity(intent)
                 }
+
+                val divisionImg = findViewById<ImageView>(R.id.divImg)
+
+                divisionImg.setOnClickListener{
+                    jump2.start()
+                    val intent = Intent(this@Operations,DivisionOperation::class.java)
+                    intent.putExtra("setSpinnerData",getSpinnerData)
+                    startActivity(intent)
+                }
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
