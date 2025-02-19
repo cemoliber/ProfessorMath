@@ -3,12 +3,10 @@ package com.example.math2
 import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
-import android.graphics.RenderNode
 import android.graphics.drawable.ColorDrawable
 import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.ContactsContract.CommonDataKinds.Im
 import android.util.Log
 import android.view.View
 import android.view.Window
@@ -16,6 +14,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.cardview.widget.CardView
 import com.google.android.gms.ads.*
 import java.util.*
@@ -24,6 +23,7 @@ import kotlin.random.Random
 
 
 class MultiOperation : AppCompatActivity() {
+    private lateinit var databaseHelper: DatabaseHelper
 
     var score = 0
     var trueCountL1 = 0
@@ -34,6 +34,13 @@ class MultiOperation : AppCompatActivity() {
     var wrongCountL3 = 0
     var questions = 0
 
+    //ListView Datas
+    var trueCount: Int = 0
+    var wrongCount: Int = 0
+    var note: Int = 0
+    var operation: String = ""
+    var level: Int = 0
+
     private companion object{
         private const val TAG = "BANNER_AD_TAG"
     }
@@ -42,6 +49,8 @@ class MultiOperation : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sum_operation)
+
+        databaseHelper = DatabaseHelper(this)
 
         //dialog box
         val dialog = Dialog(this@MultiOperation)
@@ -62,12 +71,15 @@ class MultiOperation : AppCompatActivity() {
 
         //String values for dialog box
         var scoreText = ""
+        var trueCountL1Text = ""
         var wrongCountL1Text = ""
         var pointL1Text = ""
 
+        var trueCountL2Text = ""
         var wrongCountL2Text = ""
         var pointL2Text = ""
 
+        var trueCountL3Text = ""
         var wrongCountL3Text = ""
         var pointL3Text = ""
 
@@ -174,6 +186,7 @@ class MultiOperation : AppCompatActivity() {
                         newQuestions()
                     }else if(gettedAnswer != defaultAnswer){
                         changeColorIncorrect()
+                        clearGetAnswerBox()
                         wrongSound.start()
                         score--
                         questions++
@@ -183,7 +196,8 @@ class MultiOperation : AppCompatActivity() {
                             dialog.show()
                             scoreText = score.toString()
                             wrongCountL1Text = wrongCountL1.toString()
-                            tvMessage1.setText("Skor: "+scoreText)
+                            trueCountL1Text = trueCountL1.toString()
+                            tvMessage1.setText("Doğru Sayısı: "+trueCountL1Text)
                             tvMessage2.setText("Yanlış Sayısı: "+wrongCountL1Text)
                             val pointL1 = (trueCountL1 * 100) / questions
                             pointL1Text = pointL1.toString()
@@ -267,8 +281,9 @@ class MultiOperation : AppCompatActivity() {
                         if(wrongCountL2 == 5){
                             dialog.show()
                             scoreText = score.toString()
+                            trueCountL2Text = trueCountL2.toString()
                             wrongCountL2Text = wrongCountL2.toString()
-                            tvMessage1.setText("Skor: "+scoreText)
+                            tvMessage1.setText("Doğru Sayısı: "+trueCountL2Text)
                             tvMessage2.setText("Yanlış Sayısı: "+wrongCountL2Text)
                             val pointL2 = (trueCountL2 * 100) / questions
                             pointL2Text = pointL2.toString()
@@ -308,7 +323,7 @@ class MultiOperation : AppCompatActivity() {
         }else if(selectedValue.equals("Seviye 3")){
             val randomNum1 = Random.nextInt(0,50)
             val randomNum2 = Random.nextInt(0,50)
-            val defaultAnswer = randomNum1 *+ randomNum2
+            val defaultAnswer = randomNum1 * randomNum2
 
             //score
             val sendScore = findViewById<TextView>(R.id.scoreText)
@@ -352,8 +367,9 @@ class MultiOperation : AppCompatActivity() {
                         if(wrongCountL3 == 5){
                             dialog.show()
                             scoreText = score.toString()
+                            trueCountL3Text = trueCountL3.toString()
                             wrongCountL3Text = wrongCountL3.toString()
-                            tvMessage1.setText("Skor: "+scoreText)
+                            tvMessage1.setText("Doğru Sayısı: "+trueCountL3Text)
                             tvMessage2.setText("Yanlış Sayısı: "+wrongCountL3Text)
                             val pointL3 = (trueCountL3 * 100) / questions
                             pointL3Text = pointL3.toString()
@@ -411,12 +427,16 @@ class MultiOperation : AppCompatActivity() {
 
         //String values for dialog box
         var scoreText = ""
+
+        var trueCountL1Text = ""
         var wrongCountL1Text = ""
         var pointL1Text = ""
 
+        var trueCountL2Text = ""
         var wrongCountL2Text = ""
         var pointL2Text = ""
 
+        var trueCountL3Text = ""
         var wrongCountL3Text = ""
         var pointL3Text = ""
 
@@ -467,12 +487,21 @@ class MultiOperation : AppCompatActivity() {
                         if(wrongCountL1 == 5){
                             dialog.show()
                             scoreText = score.toString()
+                            trueCountL1Text = trueCountL1.toString()
                             wrongCountL1Text = wrongCountL1.toString()
-                            tvMessage1.setText("Skor: "+scoreText)
+                            tvMessage1.setText("Doğru Sayısı: "+trueCountL1Text)
                             tvMessage2.setText("Yanlış Sayısı: "+wrongCountL1Text)
                             val pointL1 = (trueCountL1 * 100) / questions
                             pointL1Text = pointL1.toString()
                             tvMessage3.setText("Puan: "+pointL1Text)
+
+                            saveReportCardDatas(
+                                pointL1,
+                                trueCountL1,
+                                wrongCountL1,
+                                1,
+                                "Çarpma"
+                            )
 
                             btnMenu.setOnClickListener {
                                 score = 0
@@ -509,7 +538,6 @@ class MultiOperation : AppCompatActivity() {
             val controlAnswer = findViewById<Button>(R.id.controlButton)
             controlAnswer.setOnClickListener{
                 val getAnswer = findViewById<EditText>(R.id.answer)
-                //val showResult = findViewById<TextView>(R.id.showResult)
                 val sendScore = findViewById<TextView>(R.id.scoreText)
 
                 val text = getAnswer.text.toString()
@@ -540,12 +568,22 @@ class MultiOperation : AppCompatActivity() {
                         if(wrongCountL2 == 5){
                             dialog.show()
                             scoreText = score.toString()
+                            trueCountL2Text = trueCountL2.toString()
                             wrongCountL2Text = wrongCountL2.toString()
-                            tvMessage1.setText("Skor: "+scoreText)
+                            tvMessage1.setText("Skor: "+trueCountL2Text)
                             tvMessage2.setText("Yanlış Sayısı: "+ wrongCountL2Text)
                             val pointL2 = (trueCountL2 * 100) / questions
                             pointL2Text = pointL2.toString()
                             tvMessage3.setText("Puan: "+pointL2Text)
+
+                            saveReportCardDatas(
+                                pointL2,
+                                trueCountL2,
+                                wrongCountL2,
+                                2,
+                                "Çarpma"
+                            )
+
 
                             btnMenu.setOnClickListener {
                                 score = 0
@@ -614,12 +652,22 @@ class MultiOperation : AppCompatActivity() {
                         if(wrongCountL3 == 5){
                             dialog.show()
                             scoreText = score.toString()
+                            trueCountL3Text = trueCountL3.toString()
                             wrongCountL3Text = wrongCountL3.toString()
-                            tvMessage1.setText("Skor: "+scoreText)
+                            tvMessage1.setText("Doğru Sayısı: "+trueCountL3Text)
                             tvMessage2.setText("Yanlış Sayısı: "+ wrongCountL3Text)
                             val pointL3 = (trueCountL3 * 100) / questions
                             pointL3Text = pointL3.toString()
                             tvMessage3.setText("Puan: "+pointL3Text)
+
+                            saveReportCardDatas(
+                                pointL3,
+                                trueCountL3,
+                                wrongCountL3,
+                                3,
+                                "Çarpma"
+                            )
+
 
                             btnMenu.setOnClickListener {
                                 score = 0
@@ -658,6 +706,32 @@ class MultiOperation : AppCompatActivity() {
             showResult.setTextColor(Color.MAGENTA)
             showResult.text = "Tekrar Dene Evlat"
         }*/
+
+    //**************************************
+
+    fun saveReportCardDatas(
+        gettedNote: Int,
+        gettedTrueCount: Int,
+        gettedWrongCount: Int,
+        gettedLevel: Int,
+        gettedOperation: String
+    ) {
+        // Parametreler zaten uygun türde, bu yüzden null kontrolüne gerek yok
+        val data3 = gettedNote
+        val data1 = gettedTrueCount
+        val data2 = gettedWrongCount
+        val data4 = gettedLevel
+        val data5 = gettedOperation
+
+        // Veriyi veritabanına ekle
+        val isInserted = databaseHelper.insertReportCard(data3, data1, data2, data4, data5)
+        if (isInserted) {
+            Toast.makeText(this, "Data Inserted Successfully", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(this, "Failed to Insert Data", Toast.LENGTH_SHORT).show()
+        }
+    }
+
 
     private fun clearGetAnswerBox() {
         val getAnswer = findViewById<EditText>(R.id.answer)

@@ -495,6 +495,14 @@ class SumOperation : AppCompatActivity() {
                             pointL1Text = pointL1.toString()
                             tvMessage3.setText("Puan: "+pointL1Text)
 
+                            saveReportCardDatas(
+                                pointL1,
+                                trueCountL1,
+                                wrongCountL1,
+                                1,
+                                "Toplama"
+                            )
+
                             btnMenu.setOnClickListener {
                                 score = 0
                                 questions = 0
@@ -530,7 +538,6 @@ class SumOperation : AppCompatActivity() {
             val controlAnswer = findViewById<Button>(R.id.controlButton)
             controlAnswer.setOnClickListener{
                 val getAnswer = findViewById<EditText>(R.id.answer)
-                //val showResult = findViewById<TextView>(R.id.showResult)
                 val sendScore = findViewById<TextView>(R.id.scoreText)
 
                 val text = getAnswer.text.toString()
@@ -568,6 +575,14 @@ class SumOperation : AppCompatActivity() {
                             val pointL2 = (trueCountL2 * 100) / questions
                             pointL2Text = pointL2.toString()
                             tvMessage3.setText("Puan: "+pointL2Text)
+
+                            saveReportCardDatas(
+                                pointL2,
+                                trueCountL2,
+                                wrongCountL2,
+                                2,
+                                "Toplama"
+                            )
 
                             //listView Datas
                             trueCount = trueCountL1
