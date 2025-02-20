@@ -5,23 +5,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:background="@drawable/gradient">
+    android:background="#2196F3">
 
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hoşgeldin Evlat"
-        android:textSize="30dp"
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="250dp"
+        android:layout_height="100dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="100dp"
-        android:textColor="@color/white"
-        />
+        android:layout_above="@id/professor"
+        android:layout_marginBottom="20dp"
+        android:src="@drawable/logooo">
+    </ImageView>
 
     <ImageView
         android:id="@+id/professor"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
         android:layout_centerInParent="true"
         android:src="@drawable/professor">
 
@@ -33,8 +32,9 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/professor"
-        android:layout_marginTop="50dp"
-        android:background="@drawable/button1"
+        android:layout_marginTop="40dp"
+        android:padding="10dp"
+        android:background="@drawable/button3"
         android:text="Profesör'ü Başlat"
         />
 

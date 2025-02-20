@@ -1,11 +1,14 @@
 package com.example.math2
 
 import android.content.Context
+import android.graphics.PorterDuff
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 
 class ReportCardAdapter(private val context: Context, private val itemList: List<ReportCardItem>) : BaseAdapter() {
 
@@ -25,6 +28,7 @@ class ReportCardAdapter(private val context: Context, private val itemList: List
         val wrongCountCard = view.findViewById<TextView>(R.id.wrongCountCard)
         val levelCard = view.findViewById<TextView>(R.id.levelCard)
         val operationCard = view.findViewById<TextView>(R.id.operationCard)
+        val progressBar = view.findViewById<ProgressBar>(R.id.progressBar)
 
         noteCard.text = "Not: ${item.note}"
         trueCountCard.text = "Doğru Sayısı: ${item.trueCount}"
@@ -32,6 +36,8 @@ class ReportCardAdapter(private val context: Context, private val itemList: List
         levelCard.text = "Seviye: ${item.level}"
         operationCard.text = "İşlem: ${item.operation}"
 
+        progressBar.progress = item.note
         return view
     }
+
 }

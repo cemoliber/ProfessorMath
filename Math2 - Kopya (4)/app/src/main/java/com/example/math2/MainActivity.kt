@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.Spinner
 import com.google.android.gms.ads.*
 
 class MainActivity : AppCompatActivity() {

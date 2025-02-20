@@ -20,9 +20,11 @@ class Operations : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_operations)
 
+
         var jump2 = MediaPlayer.create(this@Operations, R.raw.jump2)
 
         val getSpinnerLevel: Spinner = findViewById(R.id.levelSpinner)
+
 
         val levels = arrayOf("Seviye 1", "Seviye 2", "Seviye 3")
 
@@ -30,10 +32,18 @@ class Operations : AppCompatActivity() {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         getSpinnerLevel.adapter = adapter
 
-        val goButton = findViewById<Button>(R.id.reportCardButton);
-        goButton.setOnClickListener {
-
+        val karne = findViewById<ImageView>(R.id.reportCardImage)
+        karne.setOnClickListener{
+            jump2.start()
             val intent = Intent(this,ReportCard::class.java)
+            startActivity(intent)
+        }
+
+        val goAnalysis = findViewById<ImageView>(R.id.chartImage)
+
+        goAnalysis.setOnClickListener{
+            jump2.start()
+            val intent = Intent(this,Analysis::class.java)
             startActivity(intent)
         }
 
@@ -83,6 +93,9 @@ class Operations : AppCompatActivity() {
                     intent.putExtra("setSpinnerData",getSpinnerData)
                     startActivity(intent)
                 }
+
+
+
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {

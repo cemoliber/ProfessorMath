@@ -21,7 +21,6 @@ import java.util.*
 import kotlin.random.Random
 
 
-
 class DivisionOperation : AppCompatActivity() {
     private lateinit var databaseHelper: DatabaseHelper
 

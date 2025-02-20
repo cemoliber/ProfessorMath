@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MultiOperation"
-    android:background="@drawable/gradient">
+    android:background="#2196F3"
+    >
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
@@ -111,7 +112,7 @@
         android:layout_marginTop="50dp"
         android:text="Yeni Soru"
         android:textColor="@color/white"
-        android:background="@drawable/button1"
+        android:background="@drawable/button2"
         />
 
     <Button

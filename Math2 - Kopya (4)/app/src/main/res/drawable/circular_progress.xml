@@ -1,0 +1,23 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Gri arka plan çemberi -->
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="@color/white"/>
+            <size android:width="80dp" android:height="80dp"/>
+        </shape>
+    </item>
+
+    <item>
+        <rotate
+            android:fromDegrees="165"
+            android:pivotX="50%"
+            android:pivotY="50%">
+            <shape android:shape="ring"
+                android:useLevel="true"
+                android:thicknessRatio="8">
+                <solid android:color="#D4061153"/> <!-- Mavi dolan çember -->
+            </shape>
+        </rotate>
+    </item>
+</layer-list>
