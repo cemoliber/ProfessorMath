@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ListView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
 class ReportCard : AppCompatActivity() {
@@ -30,9 +31,24 @@ class ReportCard : AppCompatActivity() {
 
 
     private fun loadData() {
-        val reportCardList = databaseHelper.getAllData() // ReportCardItem listesi al
-        val adapter = ReportCardAdapter(this, reportCardList) // Özel adapter kullan
-        listView.adapter = adapter // Adapter'ı ListView'a ata
+        val reportCardList = databaseHelper.getAllData() ?: emptyList() // Eğer null ise boş liste döndür
+
+        if (reportCardList.isEmpty()) {
+            showLongToast("Henüz Soru Çözmedin", 6)
+        } else {
+            val adapter = ReportCardAdapter(this, reportCardList)
+            listView.adapter = adapter
+        }
+    }
+
+    fun showLongToast(message: String, durationInSeconds: Int) {
+        val toast = Toast.makeText(this, message, Toast.LENGTH_SHORT)
+        val handler = android.os.Handler(mainLooper)
+        val repeatCount = durationInSeconds * 2
+
+        for (i in 0 until repeatCount) {
+            handler.postDelayed({ toast.show() }, (i * 2000).toLong())
+        }
     }
 
 

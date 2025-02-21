@@ -47,6 +47,7 @@ class Operations : AppCompatActivity() {
             startActivity(intent)
         }
 
+
         getSpinnerLevel.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>,

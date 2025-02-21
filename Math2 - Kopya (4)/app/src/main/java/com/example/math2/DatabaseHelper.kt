@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.util.Log
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -87,5 +88,220 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         db.close()
         return reportList
     }
+
+    fun getSumAnalyzedData(): List<AnalysisDatas> {
+        val analyzedData = mutableListOf<AnalysisDatas>()
+        val db = this.readableDatabase
+
+        // "Toplama" işlemi olan verileri toplayan sorgu
+        val sumNoteCursor = db.rawQuery(
+            "SELECT SUM($COL_NOTE) AS totalNote FROM $TABLE_NAME WHERE $COL_OPERATION = ?",
+            arrayOf("Toplama")
+        )
+        val trueCountCursor = db.rawQuery(
+            "SELECT SUM($COL_TRUE_COUNT) AS totalTrueCount FROM $TABLE_NAME WHERE $COL_OPERATION = ?",
+            arrayOf("Toplama")
+        )
+        val wrongCountCursor = db.rawQuery(
+            "SELECT SUM($COL_WRONG_COUNT) AS totalWrongCount FROM $TABLE_NAME WHERE $COL_OPERATION = ?",
+            arrayOf("Toplama")
+        )
+
+        if (sumNoteCursor.moveToFirst()) {
+            val totalNoteIndex = sumNoteCursor.getColumnIndex("totalNote")
+            val trueCountIndex = trueCountCursor.getColumnIndex("totalTrueCount")
+            val wrongCountIndex = wrongCountCursor.getColumnIndex("totalWrongCount")
+
+            if (totalNoteIndex != -1) {
+
+                var trueCount = 0
+                var wrongCount = 0
+
+                if (trueCountCursor.moveToFirst()) {
+                    trueCount = trueCountCursor.getInt(trueCountIndex)
+                }
+                if (wrongCountCursor.moveToFirst()) {
+                    wrongCount = wrongCountCursor.getInt(wrongCountIndex)
+                }
+
+                val questionCount = trueCount + wrongCount
+
+                val note = (trueCount * 100) / questionCount
+                analyzedData.add(AnalysisDatas(note = note, totalQuestion = questionCount, trueCount = trueCount, wrongCount = wrongCount))
+            } else {
+                Log.e("DatabaseError", "Sütun bulunamadı")
+            }
+        } else {
+            Log.e("DatabaseError", "Sorgu sonuç döndürmedi")
+        }
+
+        sumNoteCursor.close()
+        trueCountCursor.close()
+        wrongCountCursor.close()
+        return analyzedData
+    }
+
+    fun getSubAnalyzedData(): List<AnalysisDatas> {
+        val analyzedData = mutableListOf<AnalysisDatas>()
+        val db = this.readableDatabase
+
+        // "Toplama" işlemi olan verileri toplayan sorgu
+        val sumNoteCursor = db.rawQuery(
+            "SELECT SUM($COL_NOTE) AS totalNote FROM $TABLE_NAME WHERE $COL_OPERATION = ?",
+            arrayOf("Çıkarma")
+        )
+        val trueCountCursor = db.rawQuery(
+            "SELECT SUM($COL_TRUE_COUNT) AS totalTrueCount FROM $TABLE_NAME WHERE $COL_OPERATION = ?",
+            arrayOf("Çıkarma")
+        )
+        val wrongCountCursor = db.rawQuery(
+            "SELECT SUM($COL_WRONG_COUNT) AS totalWrongCount FROM $TABLE_NAME WHERE $COL_OPERATION = ?",
+            arrayOf("Çıkarma")
+        )
+
+        if (sumNoteCursor.moveToFirst()) {
+            val totalNoteIndex = sumNoteCursor.getColumnIndex("totalNote")
+            val trueCountIndex = trueCountCursor.getColumnIndex("totalTrueCount")
+            val wrongCountIndex = wrongCountCursor.getColumnIndex("totalWrongCount")
+
+            if (totalNoteIndex != -1) {
+
+                var trueCount = 0
+                var wrongCount = 0
+
+                if (trueCountCursor.moveToFirst()) {
+                    trueCount = trueCountCursor.getInt(trueCountIndex)
+                }
+                if (wrongCountCursor.moveToFirst()) {
+                    wrongCount = wrongCountCursor.getInt(wrongCountIndex)
+                }
+
+                val questionCount = trueCount + wrongCount
+
+                val note = (trueCount * 100) / questionCount
+
+                analyzedData.add(AnalysisDatas(note = note, totalQuestion = questionCount, trueCount = trueCount, wrongCount = wrongCount))
+            } else {
+                Log.e("DatabaseError", "Sütun bulunamadı")
+            }
+        } else {
+            Log.e("DatabaseError", "Sorgu sonuç döndürmedi")
+        }
+
+        sumNoteCursor.close()
+        trueCountCursor.close()
+        wrongCountCursor.close()
+        return analyzedData
+    }
+
+    fun getMultiplyAnalyzedData(): List<AnalysisDatas> {
+        val analyzedData = mutableListOf<AnalysisDatas>()
+        val db = this.readableDatabase
+
+        // "Toplama" işlemi olan verileri toplayan sorgu
+        val sumNoteCursor = db.rawQuery(
+            "SELECT SUM($COL_NOTE) AS totalNote FROM $TABLE_NAME WHERE $COL_OPERATION = ?",
+            arrayOf("Çarpma")
+        )
+        val trueCountCursor = db.rawQuery(
+            "SELECT SUM($COL_TRUE_COUNT) AS totalTrueCount FROM $TABLE_NAME WHERE $COL_OPERATION = ?",
+            arrayOf("Çarpma")
+        )
+        val wrongCountCursor = db.rawQuery(
+            "SELECT SUM($COL_WRONG_COUNT) AS totalWrongCount FROM $TABLE_NAME WHERE $COL_OPERATION = ?",
+            arrayOf("Çarpma")
+        )
+
+        if (sumNoteCursor.moveToFirst()) {
+            val totalNoteIndex = sumNoteCursor.getColumnIndex("totalNote")
+            val trueCountIndex = trueCountCursor.getColumnIndex("totalTrueCount")
+            val wrongCountIndex = wrongCountCursor.getColumnIndex("totalWrongCount")
+
+            if (totalNoteIndex != -1) {
+
+                var trueCount = 0
+                var wrongCount = 0
+
+                if (trueCountCursor.moveToFirst()) {
+                    trueCount = trueCountCursor.getInt(trueCountIndex)
+                }
+                if (wrongCountCursor.moveToFirst()) {
+                    wrongCount = wrongCountCursor.getInt(wrongCountIndex)
+                }
+
+                val questionCount = trueCount + wrongCount
+
+                val note = (trueCount * 100) / questionCount
+
+                analyzedData.add(AnalysisDatas(note = note, totalQuestion = questionCount, trueCount = trueCount, wrongCount = wrongCount))
+            } else {
+                Log.e("DatabaseError", "Sütun bulunamadı")
+            }
+        } else {
+            Log.e("DatabaseError", "Sorgu sonuç döndürmedi")
+        }
+
+        sumNoteCursor.close()
+        trueCountCursor.close()
+        wrongCountCursor.close()
+        return analyzedData
+    }
+
+    fun getDivisionAnalyzedData(): List<AnalysisDatas> {
+        val analyzedData = mutableListOf<AnalysisDatas>()
+        val db = this.readableDatabase
+
+        // "Toplama" işlemi olan verileri toplayan sorgu
+        val sumNoteCursor = db.rawQuery(
+            "SELECT SUM($COL_NOTE) AS totalNote FROM $TABLE_NAME WHERE $COL_OPERATION = ?",
+            arrayOf("Bölme")
+        )
+        val trueCountCursor = db.rawQuery(
+            "SELECT SUM($COL_TRUE_COUNT) AS totalTrueCount FROM $TABLE_NAME WHERE $COL_OPERATION = ?",
+            arrayOf("Bölme")
+        )
+        val wrongCountCursor = db.rawQuery(
+            "SELECT SUM($COL_WRONG_COUNT) AS totalWrongCount FROM $TABLE_NAME WHERE $COL_OPERATION = ?",
+            arrayOf("Bölme")
+        )
+
+        if (sumNoteCursor.moveToFirst()) {
+            val totalNoteIndex = sumNoteCursor.getColumnIndex("totalNote")
+            val trueCountIndex = trueCountCursor.getColumnIndex("totalTrueCount")
+            val wrongCountIndex = wrongCountCursor.getColumnIndex("totalWrongCount")
+
+            if (totalNoteIndex != -1) {
+
+                var trueCount = 0
+                var wrongCount = 0
+
+                if (trueCountCursor.moveToFirst()) {
+                    trueCount = trueCountCursor.getInt(trueCountIndex)
+                }
+                if (wrongCountCursor.moveToFirst()) {
+                    wrongCount = wrongCountCursor.getInt(wrongCountIndex)
+                }
+
+                val questionCount = trueCount + wrongCount
+
+                val note = (trueCount * 100) / questionCount
+
+                analyzedData.add(AnalysisDatas(note = note, totalQuestion = questionCount, trueCount = trueCount, wrongCount = wrongCount))
+            } else {
+                Log.e("DatabaseError", "Sütun bulunamadı")
+            }
+        } else {
+            Log.e("DatabaseError", "Sorgu sonuç döndürmedi")
+        }
+
+        sumNoteCursor.close()
+        trueCountCursor.close()
+        wrongCountCursor.close()
+        return analyzedData
+    }
+
+
+
+
 
 }

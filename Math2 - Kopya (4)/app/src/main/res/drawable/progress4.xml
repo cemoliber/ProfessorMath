@@ -3,14 +3,14 @@
     <!-- Gri arka plan çemberi -->
     <item>
         <shape android:shape="oval">
-            <solid android:color="@color/white"/>
+            <solid android:color="#00FFFFFF"/>
             <size android:width="80dp" android:height="80dp"/>
         </shape>
     </item>
 
     <item>
         <rotate
-            android:fromDegrees="-150"
+            android:fromDegrees="0"
             android:pivotX="50%"
             android:pivotY="50%">
             <shape android:shape="ring"

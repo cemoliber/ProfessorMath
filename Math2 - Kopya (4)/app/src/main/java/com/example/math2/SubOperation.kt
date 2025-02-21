@@ -445,7 +445,7 @@ class SubOperation : AppCompatActivity() {
         val wrongSound = MediaPlayer.create(this@SubOperation,R.raw.incorrect)
 
         if(selectedValue.equals("Seviye 1")){
-            val randomNum1 = Random.nextInt(0,10)
+            val randomNum1 = Random.nextInt(1,10)
             val randomNum2 = Random.nextInt(0,randomNum1)
             val defaultAnswer = randomNum1 - randomNum2
 
@@ -527,7 +527,7 @@ class SubOperation : AppCompatActivity() {
                 }
             }
         }else if(selectedValue.equals("Seviye 2")){
-            val randomNum1 = Random.nextInt(0,30)
+            val randomNum1 = Random.nextInt(1,30)
             val randomNum2 = Random.nextInt(0,randomNum1)
             val defaultAnswer = randomNum1 - randomNum2
 
