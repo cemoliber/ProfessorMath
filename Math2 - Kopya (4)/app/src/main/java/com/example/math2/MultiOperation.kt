@@ -726,9 +726,9 @@ class MultiOperation : AppCompatActivity() {
         // Veriyi veritabanına ekle
         val isInserted = databaseHelper.insertReportCard(data3, data1, data2, data4, data5)
         if (isInserted) {
-            Toast.makeText(this, "Data Inserted Successfully", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Sonuçlar Başarılarım'a Eklendi", Toast.LENGTH_SHORT).show()
         } else {
-            Toast.makeText(this, "Failed to Insert Data", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Sonuçlar Eklenirken Bir Hata Oluştu!", Toast.LENGTH_SHORT).show()
         }
     }
 
